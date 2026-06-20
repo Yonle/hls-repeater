@@ -17,6 +17,10 @@ rm -rf "$streamdir/*.ts"
 mkdir -p "$streamdir"
 
 exec ffmpeg \
+  -readrate "$READRATE" \
+  -readrate_initial_burst "$READRATE_INITIAL_BURST" \
+  -readrate_catchup "$READRATE_CATCHUP" \
+  -analyzeduration 0 \
   -hide_banner -loglevel info \
   -i "$url" \
   -c copy \

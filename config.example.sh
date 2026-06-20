@@ -16,6 +16,12 @@ FFMPEG_LOGLEVEL=info
 
 # -- FFMPEG
 
+# upstream read rate
+# see ffmpeg manpage on -readrate
+READRATE=1
+READRATE_INITIAL_BURST=2
+READRATE_CATCHUP=2
+
 # how long each segments should be?
 HLS_TIME=4
 
