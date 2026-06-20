@@ -63,6 +63,25 @@ when `relayscripts` has been generated, you can start relaying by executing one 
 bash relayscripts/<categ>/<ch>.sh
 ```
 
+## alternative method: serving multiple streams without using `liststream/`
+
+make `relays.sh` script, write:
+
+```
+trap 'kill -KILL -- -$$ 2>/dev/null' INT TERM
+
+R=./relay.sh
+
+$R Category1 channel1_tv http://example1.com/n1.m3u8 &
+$R Category2 channel2_tv http://example2.com/n2.m3u8 &
+
+wait
+```
+
+and start serving by running `bash relays.sh`.
+
+after stopping relays, clean up the `stream/` dir by running `rm -rf stream/*`.
+
 ## serving http
 
 ```
