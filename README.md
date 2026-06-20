@@ -53,3 +53,11 @@ after configuring a http stream endpoint, now generate the playlist.
 ```
 
 it will give `gen_index.m3u8` to you. And then you can share this to your users.
+
+
+## manual
+
+when `relayscripts` has been generated, you can start relaying by executing one of it's bash script.
+```
+bash relayscripts/<categ>/<ch>.sh
+```
