@@ -17,7 +17,7 @@ FFMPEG_LOGLEVEL=info
 # -- FFMPEG
 
 # how long each segments should be?
-HLS_TIME=6
+HLS_TIME=4
 
 # how many segments must be announced to client?
 HLS_LIST_SIZE=5
