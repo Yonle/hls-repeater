@@ -21,8 +21,11 @@ exec ffmpeg \
   -i "$url" \
   -c copy \
   -f hls \
+  -rw_timeout 15000000 \
   -reconnect 1 \
+  -reconnect_at_eof 1 \
   -reconnect_streamed 1 \
+  -reconnect_on_network_error 1 \
   -reconnect_delay_max 5 \
   -hls_time "$HLS_TIME" \
   -hls_list_size "$HLS_LIST_SIZE" \
