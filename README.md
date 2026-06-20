@@ -68,3 +68,11 @@ bash relayscripts/<categ>/<ch>.sh
 ```
 darkhttpd stream/ --port 8080
 ```
+
+## NOTICE
+
+if you are serving a lot of streams, Make `stream` folder, and mount `tmpfs` with your preferred size, for like 5GB for example
+```
+mkdir stream/
+sudo mount -t tmpfs -o size=5G tmpfs stream/
+```
