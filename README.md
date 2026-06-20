@@ -5,6 +5,7 @@ all you need is:
 2. GNU `grep`.
 3. `bash`, `curl` and `ffmpeg` installed
 4. upstream link not encrypted with DRM
+5. a http server for serving static dir. `darkhttpd` is preferred
 
 ## steps to repeat bunch of upstreams
 
@@ -60,4 +61,10 @@ it will give `gen_index.m3u8` to you. And then you can share this to your users.
 when `relayscripts` has been generated, you can start relaying by executing one of it's bash script.
 ```
 bash relayscripts/<categ>/<ch>.sh
+```
+
+## serving http
+
+```
+darkhttpd stream/ --port 8080
 ```
