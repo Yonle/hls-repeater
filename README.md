@@ -17,7 +17,7 @@ there are 2 ways of making `liststreams/`
 
 and we're going to convert our own `m3u8` playlist.
 
-### convert playlist -> `liststreams/``
+### convert playlist -> `liststreams/`
 
 just run:
 ```
