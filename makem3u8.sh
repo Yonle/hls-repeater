@@ -44,7 +44,7 @@ while read categ; do
             "$categ" \
             "$ID" \
             "$NAME" \
-            "$ACCESS_URL/$categ/$ID.m3u8" \
+            "$ACCESS_URL/$categ/$ID/index.m3u8" \
             "$LOGO"
 
         echo "Inserted: $categ | Name: $NAME"
