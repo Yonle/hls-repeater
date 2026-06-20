@@ -2,7 +2,7 @@
 
 all you need is:
 1. a linux machine/server. could be debian, could be ubuntu.
-2. anything `coreutils` installed
+2. GNU `grep`.
 3. `bash`, `curl` and `ffmpeg` installed
 4. upstream link not encrypted with DRM
 
