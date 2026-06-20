@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+categ="$1"
+name="$2"
+url="$3"
+
+if [ -z "$categ" ] || [ -z "$name" ] || [ -z "$url" ]; then
+  echo "Usage: ./relay.sh <categ> <name> <url>"
+  exit 1
+fi
+
+source config.sh
+
+streamdir="$ROOT_STREAMDIR/$categ/$name"
+
+rm -rf "$streamdir/*.ts"
+mkdir -p "$streamdir"
+
+exec ffmpeg \
+  -hide_banner -loglevel info \
+  -i "$url" \
+  -c copy \
+  -f hls \
+  -reconnect 1 \
+  -reconnect_streamed 1 \
+  -reconnect_delay_max 5 \
+  -hls_time "$HLS_TIME" \
+  -hls_list_size "$HLS_LIST_SIZE" \
+  -hls_flags delete_segments+append_list+temp_file \
+  -hls_delete_threshold "$HLS_DELETE_THRESHOLD" \
+  -hls_segment_filename "$streamdir/%06d.ts" \
+  -hls_allow_cache 0 \
+  "$streamdir/index.m3u8"
