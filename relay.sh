@@ -19,7 +19,7 @@ while true; do
 	rm -rf "$streamdir/*.ts"
 	mkdir -p "$streamdir"
 
-	exec ffmpeg \
+	ffmpeg \
 	  -readrate "$READRATE" \
 	  -readrate_initial_burst "$READRATE_INITIAL_BURST" \
 	  -readrate_catchup "$READRATE_CATCHUP" \
