@@ -29,7 +29,7 @@ HLS_TIME=4
 HLS_LIST_SIZE=4
 
 # how many segments must be kept behind before deleted?
-HLS_DELETE_THRESHOLD=6
+HLS_DELETE_THRESHOLD=10
 
 # --- index m3u8 generation ---
 
