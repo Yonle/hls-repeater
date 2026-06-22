@@ -26,10 +26,10 @@ READRATE_CATCHUP=2
 HLS_TIME=4
 
 # how many segments must be announced to client?
-HLS_LIST_SIZE=5
+HLS_LIST_SIZE=4
 
 # how many segments must be kept behind before deleted?
-HLS_DELETE_THRESHOLD=25
+HLS_DELETE_THRESHOLD=6
 
 # --- index m3u8 generation ---
 
