@@ -43,7 +43,7 @@ while true; do
 	  -hls_list_size "$HLS_LIST_SIZE" \
 	  -hls_flags delete_segments+append_list+temp_file \
 	  -hls_delete_threshold "$HLS_DELETE_THRESHOLD" \
-	  -hls_segment_filename "$streamdir/%06d.ts" \
+	  -hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME" \
 	  -hls_allow_cache 0 \
 	  "$streamdir/index.m3u8"
 

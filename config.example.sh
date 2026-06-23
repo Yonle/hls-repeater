@@ -46,6 +46,9 @@ HLS_DELETE_THRESHOLD=4
 # -1: start from the newest in the index
 HLS_START_INDEX=-1
 
+# the hls segment filename format
+HLS_SEGMENT_FILENAME="%05d.ts"
+
 # --- index m3u8 generation ---
 
 GEN_LISTSTREAMS_DIR="./gen_liststreams"
