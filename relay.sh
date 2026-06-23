@@ -11,7 +11,11 @@ if [ -z "$categ" ] || [ -z "$name" ] || [ -z "$url" ]; then
 	exit 1
 fi
 
-source config.sh
+source config.default.sh
+
+if [ -f "config.sh" ]; then
+	source config.sh
+fi
 
 if ! [ -z "$CONF" ]; then
 	source "$CONF"

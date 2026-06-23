@@ -9,7 +9,7 @@ all you need is:
 
 ## steps to repeat bunch of upstreams
 
-1. edit `config.sh` (after copying `config.example.sh`), and modify `ACCESS_URL` to be a public link where anyone can access your http server that's serving `stream/` folder
+1. edit `config.sh` (after copying `config.default.sh`), and modify `ACCESS_URL` to be a public link where anyone can access your http server that's serving `stream/` folder
 2. make a `liststreams/`.
 
 there are 2 ways of making `liststreams/`
@@ -64,6 +64,8 @@ bash relayscripts/<categ>/<ch>.sh
 ```
 
 ## alternative method: serving multiple streams without using `liststream/`
+
+after making `config.sh` (see above),
 
 make `relays.sh` script, write:
 
