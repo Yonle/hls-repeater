@@ -39,6 +39,7 @@ while true; do
 	  -reconnect_on_network_error 1 \
 	  -reconnect_delay_max 5 \
 	  -live_start_index "$HLS_START_INDEX" \
+	  -strftime 1 \
 	  -hls_time "$HLS_TIME" \
 	  -hls_list_size "$HLS_LIST_SIZE" \
 	  -hls_flags delete_segments+append_list+temp_file \
