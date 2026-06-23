@@ -42,6 +42,10 @@ HLS_LIST_SIZE=2
 # how many segments must be kept behind before deleted?
 HLS_DELETE_THRESHOLD=4
 
+# start from what segments first?
+# -1: start from the newest in the index
+HLS_START_INDEX=-1
+
 # --- index m3u8 generation ---
 
 GEN_LISTSTREAMS_DIR="./gen_liststreams"
