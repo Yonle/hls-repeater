@@ -44,7 +44,10 @@ HLS_DELETE_THRESHOLD=10
 
 # start from what segments first?
 # -1: start from the newest in the index
-HLS_START_INDEX=-1
+# 0: the default.
+#
+# only change this if you know what you are doing
+HLS_START_INDEX=0
 
 # the hls segment filename format
 HLS_SEGMENT_FILENAME="%05d.ts"
