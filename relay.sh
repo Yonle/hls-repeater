@@ -7,11 +7,15 @@ name="$2"
 url="$3"
 
 if [ -z "$categ" ] || [ -z "$name" ] || [ -z "$url" ]; then
-  echo "Usage: ./relay.sh <categ> <name> <url>"
-  exit 1
+	echo "Usage: ./relay.sh <categ> <name> <url>"
+	exit 1
 fi
 
 source config.sh
+
+if ! [ -z "$CONF" ]; then
+	source "$CONF"
+fi
 
 streamdir="$ROOT_STREAMDIR/$categ/$name"
 

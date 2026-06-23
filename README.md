@@ -75,6 +75,11 @@ R=./relay.sh
 $R Category1 channel1_tv http://example1.com/n1.m3u8 &
 $R Category2 channel2_tv http://example2.com/n2.m3u8 &
 
+# if some upstream require different config, you can add CONF that links to different config.sh
+# just for that specific repeating. anything in config.sh will stil be applied while overriden by
+# what's been overriden in the custom config.
+CONF=different_config.sh $R Category3 channel3_tv http://example3.com/n3.m3u8
+
 wait
 ```
 
