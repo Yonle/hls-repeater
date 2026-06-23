@@ -18,10 +18,9 @@ FFMPEG_LOGLEVEL=info
 
 # upstream read rate
 # see ffmpeg manpage on -readrate
-#
-# READRATE=1
-# READRATE_INITIAL_BURST=2
-# READRATE_CATCHUP=2
+READRATE=1
+READRATE_INITIAL_BURST=2
+READRATE_CATCHUP=2
 
 # If FFmpeg reports many packet corruption errors, but the issue cannot
 # be reproduced in a normal media player, the upstream server may expect
@@ -29,9 +28,9 @@ FFMPEG_LOGLEVEL=info
 # during startup.
 #
 # In that case, disable read rate limiting:
-READRATE=0
-READRATE_INITIAL_BURST=0
-READRATE_CATCHUP=0
+# READRATE=0
+# READRATE_INITIAL_BURST=0
+# READRATE_CATCHUP=0
 
 # how long each segments should be?
 HLS_TIME=4
