@@ -32,6 +32,7 @@ while true; do
 	  -readrate_initial_burst "$READRATE_INITIAL_BURST" \
 	  -readrate_catchup "$READRATE_CATCHUP" \
 	  -hide_banner -loglevel info \
+	  -fflags +genpts+igndts+discardcorrupt \
 	  -i "$url" \
 	  -c copy \
 	  -f hls \
