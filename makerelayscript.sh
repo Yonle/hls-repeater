@@ -19,6 +19,7 @@ while read categ; do
         source "$LIST_STREAMS_DIR/$categ.categ/$ch_f"
 
         cat << EOF > "$RS_C_D/$ID.sh"
+`! [ -z "$CONF"  ] && echo "CONF=$CONF"`
 exec $PWD/relay.sh "$categ" "$ID" "$STREAM"       
 EOF
         echo "Inserted: $categ | Name: $NAME"
