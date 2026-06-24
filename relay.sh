@@ -33,8 +33,7 @@ CMD=(ffmpeg
 
 # input options FIRST
 if [[ -n "$FFMPEG_INPUT_OPT" ]]; then
-	read -r -a extra_in <<< "$FFMPEG_INPUT_OPT"
-	CMD+=("${extra_in[@]}")
+	CMD+=("${FFMPEG_INPUT_OPT[@]}")
 fi
 
 CMD+=(
@@ -55,15 +54,14 @@ CMD+=(
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
 	-hls_list_size "$HLS_LIST_SIZE"
-	-hls_flags delete_segments+append_list+temp_file+split_by_time
+	-hls_flags delete_segments+append_list+temp_file+independent_segments
 	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
 	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
 	-hls_allow_cache 0
 )
 
 if [[ -n "$FFMPEG_OUTPUT_OPT" ]]; then
-	read -r -a extra_out <<< "$FFMPEG_OUTPUT_OPT"
-	CMD+=("${extra_out[@]}")
+	CMD+=("${FFMPEG_OUTPUT_OPT[@]}")
 fi
 
 CMD+=("$streamdir/index.m3u8")

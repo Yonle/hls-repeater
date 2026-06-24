@@ -28,6 +28,13 @@ FFMPEG_USER_AGENT="hls-repeater"
 #   -flag..
 # )
 
+# example: using fMP4 instead of mpegts
+# FFMPEG_OUTPUT_OPT=(
+#	-hls_segment_type fmp4
+#	-hls_fmp4_init_filename "init.mp4"
+#	-bsf:a aac_adtstoasc
+# )
+
 # upstream read rate
 # see ffmpeg manpage on -readrate
 # READRATE=1
