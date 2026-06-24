@@ -45,12 +45,9 @@ CMD+=(
 	-reconnect 1
 	-reconnect_streamed 1
 	-reconnect_on_network_error 1
-	-reconnect_on_http_error 1
 	-reconnect_delay_max 5
-	-reconnect_max_retries 100
 	-extension_picky 0
-	-max_reload 1
-	-seg_max_retry 1
+	-max_reload -1
 	-live_start_index "$HLS_START_INDEX"
 	-i "$url"
 	-c copy
@@ -59,7 +56,7 @@ CMD+=(
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
 	-hls_list_size "$HLS_LIST_SIZE"
-	-hls_flags delete_segments+append_list+temp_file
+	-hls_flags delete_segments+append_list+temp_file+split_by_time
 	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
 	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
 	-hls_allow_cache 0
@@ -73,7 +70,6 @@ fi
 CMD+=("$streamdir/index.m3u8")
 
 while true; do
-	rm -rf "$streamdir"/*.ts
 	mkdir -p "$streamdir"
 
 	"${CMD[@]}"
