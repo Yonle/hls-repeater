@@ -34,6 +34,8 @@ FFMPEG_USER_AGENT="hls-repeater"
 #	-hls_fmp4_init_filename "init.mp4"
 #	-bsf:a aac_adtstoasc
 # )
+#
+# then change HLS_SEGMENT_FILENAME extention to use .m4s instead
 
 # upstream read rate
 # see ffmpeg manpage on -readrate
