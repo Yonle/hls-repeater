@@ -23,33 +23,61 @@ fi
 
 streamdir="$ROOT_STREAMDIR/$categ/$name"
 
+CMD=(ffmpeg
+	-hide_banner -loglevel info
+	-fflags +genpts+igndts+discardcorrupt
+	-readrate "$READRATE"
+	-readrate_initial_burst "$READRATE_INITIAL_BURST"
+	-readrate_catchup "$READRATE_CATCHUP"
+)
+
+# input options FIRST
+if [[ -n "$FFMPEG_INPUT_OPT" ]]; then
+	read -r -a extra_in <<< "$FFMPEG_INPUT_OPT"
+	CMD+=("${extra_in[@]}")
+fi
+
+CMD+=(
+	-seekable 0
+	-multiple_requests 1
+	-user_agent "$FFMPEG_USER_AGENT"
+	-rw_timeout 15000000
+	-reconnect 1
+	-reconnect_at_eof 1
+	-reconnect_streamed 1
+	-reconnect_on_network_error 1
+	-reconnect_on_http_error 1
+	-reconnect_delay_max 5
+	-reconnect_max_retries 100
+	-extension_picky 0
+	-max_reload 1
+	-seg_max_retry 1
+	-i "$url"
+	-c copy
+	-avoid_negative_ts make_zero
+	-f hls
+	-live_start_index "$HLS_START_INDEX"
+	-prefer_x_start 1
+	-hls_time "$HLS_TIME"
+	-hls_list_size "$HLS_LIST_SIZE"
+	-hls_flags delete_segments+append_list+temp_file+split_by_time
+	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
+	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
+	-hls_allow_cache 0
+)
+
+if [[ -n "$FFMPEG_OUTPUT_OPT" ]]; then
+	read -r -a extra_out <<< "$FFMPEG_OUTPUT_OPT"
+	CMD+=("${extra_out[@]}")
+fi
+
+CMD+=("$streamdir/index.m3u8")
+
 while true; do
-	rm -rf "$streamdir/*.ts"
+	rm -rf "$streamdir"/*.ts
 	mkdir -p "$streamdir"
 
-	ffmpeg \
-	  -readrate "$READRATE" \
-	  -readrate_initial_burst "$READRATE_INITIAL_BURST" \
-	  -readrate_catchup "$READRATE_CATCHUP" \
-	  -hide_banner -loglevel info \
-	  -fflags +genpts+igndts+discardcorrupt \
-	  -i "$url" \
-	  -c copy \
-	  -f hls \
-	  -rw_timeout 15000000 \
-	  -reconnect 1 \
-	  -reconnect_at_eof 1 \
-	  -reconnect_streamed 1 \
-	  -reconnect_on_network_error 1 \
-	  -reconnect_delay_max 5 \
-	  -live_start_index "$HLS_START_INDEX" \
-	  -hls_time "$HLS_TIME" \
-	  -hls_list_size "$HLS_LIST_SIZE" \
-	  -hls_flags delete_segments+append_list+temp_file \
-	  -hls_delete_threshold "$HLS_DELETE_THRESHOLD" \
-	  -hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME" \
-	  -hls_allow_cache 0 \
-	  "$streamdir/index.m3u8"
+	"${CMD[@]}"
 
 	sleep 5 # retry in 5 seconds.
 done

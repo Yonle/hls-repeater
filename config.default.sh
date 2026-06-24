@@ -16,6 +16,18 @@ FFMPEG_LOGLEVEL=info
 
 # -- FFMPEG
 
+FFMPEG_USER_AGENT="hls-repeater"
+
+# additional flags if needed
+
+# FFMPEG_INPUT_OPT=(
+#   -flag..
+# )
+#
+# FFMPEG_OUTPUT_OPT=(
+#   -flag..
+# )
+
 # upstream read rate
 # see ffmpeg manpage on -readrate
 # READRATE=1
