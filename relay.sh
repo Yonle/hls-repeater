@@ -51,15 +51,15 @@ CMD+=(
 	-extension_picky 0
 	-max_reload 1
 	-seg_max_retry 1
+	-live_start_index "$HLS_START_INDEX"
 	-i "$url"
 	-c copy
 	-avoid_negative_ts make_zero
 	-f hls
-	-live_start_index "$HLS_START_INDEX"
-	-prefer_x_start 1
+	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
 	-hls_list_size "$HLS_LIST_SIZE"
-	-hls_flags delete_segments+append_list+temp_file+split_by_time
+	-hls_flags delete_segments+append_list+temp_file
 	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
 	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
 	-hls_allow_cache 0
