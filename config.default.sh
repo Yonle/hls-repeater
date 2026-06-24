@@ -58,7 +58,7 @@ HLS_DELETE_THRESHOLD=10
 # 0: the default.
 #
 # only change this if you know what you are doing
-HLS_START_INDEX=0
+HLS_START_INDEX=-1
 
 # the hls segment filename format
 HLS_SEGMENT_FILENAME="%05d.ts"

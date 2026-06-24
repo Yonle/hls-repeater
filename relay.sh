@@ -47,7 +47,6 @@ CMD+=(
 	-reconnect_on_network_error 1
 	-reconnect_delay_max 5
 	-extension_picky 0
-	-max_reload -1
 	-live_start_index "$HLS_START_INDEX"
 	-i "$url"
 	-c copy
