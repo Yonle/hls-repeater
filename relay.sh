@@ -43,7 +43,6 @@ CMD+=(
 	-user_agent "$FFMPEG_USER_AGENT"
 	-rw_timeout 15000000
 	-reconnect 1
-	-reconnect_at_eof 1
 	-reconnect_streamed 1
 	-reconnect_on_network_error 1
 	-reconnect_on_http_error 1
