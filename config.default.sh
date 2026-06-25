@@ -12,7 +12,7 @@ ACCESS_URL="https://tv.example.com/stream"
 # Ignore the following if you only care about serving streams
 
 ROOT_STREAMDIR="./stream"
-FFMPEG_LOGLEVEL=error
+FFMPEG_LOGLEVEL=warning
 
 # -- FFMPEG
 
