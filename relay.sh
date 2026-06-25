@@ -66,8 +66,18 @@ fi
 
 CMD+=("$streamdir/index.m3u8")
 
+cleanup() {
+	if ! [ -d "$streamdir" ]; then
+		return
+	fi
+
+	echo "cleaning up $streamdir..."
+
+	find "$streamdir" -type f ! -name 'index.m3u8' -print0 | xargs -0 rm -v
+}
+
 while true; do
-	rm -rf "$streamdir"
+	cleanup
 	mkdir -p "$streamdir"
 
 	"${CMD[@]}"
