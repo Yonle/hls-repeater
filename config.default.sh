@@ -32,6 +32,7 @@ FFMPEG_USER_AGENT="hls-repeater"
 # FFMPEG_OUTPUT_OPT=(
 #	-hls_segment_type fmp4
 #	-hls_fmp4_init_filename "init.mp4"
+#	-hls_fmp4_init_resend 1
 #	-bsf:a aac_adtstoasc
 # )
 #
