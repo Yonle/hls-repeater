@@ -71,5 +71,7 @@ while true; do
 
 	"${CMD[@]}"
 
+	echo "[$name] ffmpeg exited with code $?. restarting in 5sec..."
+
 	sleep 5 # retry in 5 seconds.
 done
