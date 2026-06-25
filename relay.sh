@@ -25,7 +25,7 @@ streamdir="$ROOT_STREAMDIR/$categ/$name"
 
 CMD=(ffmpeg
 	-hide_banner -loglevel info
-	-fflags +genpts+igndts+discardcorrupt
+	-fflags +genpts+discardcorrupt
 	-readrate "$READRATE"
 	-readrate_initial_burst "$READRATE_INITIAL_BURST"
 	-readrate_catchup "$READRATE_CATCHUP"
