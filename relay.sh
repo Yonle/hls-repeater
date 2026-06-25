@@ -57,7 +57,7 @@ CMD+=(
 	-hls_flags delete_segments+append_list+omit_endlist+discont_start+temp_file+independent_segments
 	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
 	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
-	-hls_allow_cache 0
+	-hls_allow_cache 1
 )
 
 if [[ -n "$FFMPEG_OUTPUT_OPT" ]]; then
