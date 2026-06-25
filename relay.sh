@@ -67,6 +67,7 @@ fi
 CMD+=("$streamdir/index.m3u8")
 
 while true; do
+	rm -rf "$streamdir"
 	mkdir -p "$streamdir"
 
 	"${CMD[@]}"
