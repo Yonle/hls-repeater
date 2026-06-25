@@ -25,7 +25,7 @@ streamdir="$ROOT_STREAMDIR/$categ/$name"
 
 CMD=(ffmpeg
 	-hide_banner -loglevel "$FFMPEG_LOGLEVEL"
-	-fflags +genpts+discardcorrupt
+	-fflags +discardcorrupt
 	-readrate "$READRATE"
 	-readrate_initial_burst "$READRATE_INITIAL_BURST"
 	-readrate_catchup "$READRATE_CATCHUP"
@@ -49,7 +49,8 @@ CMD+=(
 	-live_start_index "$HLS_START_INDEX"
 	-i "$url"
 	-c copy
-	-avoid_negative_ts make_zero
+	-copyts
+	-avoid_negative_ts disabled
 	-f hls
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
