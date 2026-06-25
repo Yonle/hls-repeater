@@ -54,7 +54,7 @@ CMD+=(
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
 	-hls_list_size "$HLS_LIST_SIZE"
-	-hls_flags delete_segments+append_list+temp_file+independent_segments
+	-hls_flags delete_segments+append_list+omit_endlist+discont_start+temp_file+independent_segments
 	-hls_delete_threshold "$HLS_DELETE_THRESHOLD"
 	-hls_segment_filename "$streamdir/$HLS_SEGMENT_FILENAME"
 	-hls_allow_cache 0
