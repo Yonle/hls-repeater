@@ -73,6 +73,9 @@ fi
 
 CMD+=(
 	-i "$url"
+	-map 0:v?
+	-map 0:a?
+	-map 0:s?
 	-c copy
 )
 
