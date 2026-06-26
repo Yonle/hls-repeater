@@ -51,15 +51,15 @@ FFMPEG_ANALYZEDURATION=2000000
 # Can improve A/V synchronization for some live MPEG-TS or IPTV streams,
 # but may expose timestamp issues from broken sources.
 #
-# Default: 1
-FFMPEG_COPYTS=1
+# Default: 0
+FFMPEG_COPYTS=0
 
 # When preserving timestamps, shift the entire timeline so playback starts
 # at timestamp 0 instead of the original input timestamp.
 # Requires FFMPEG_COPYTS to be enabled.
 #
-# Default: 1
-FFMPEG_TS_START_AT_ZERO=1
+# Default: 0
+FFMPEG_TS_START_AT_ZERO=0
 
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
@@ -110,7 +110,7 @@ HLS_TIME=4
 HLS_LIST_SIZE=8
 
 # how many segments must be kept behind before deleted?
-HLS_DELETE_THRESHOLD=16
+HLS_DELETE_THRESHOLD=10
 
 # start from what segments first?
 # -1: start from the newest in the index
