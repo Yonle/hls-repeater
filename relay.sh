@@ -26,6 +26,8 @@ streamdir="$ROOT_STREAMDIR/$categ/$name"
 CMD=(ffmpeg
 	-hide_banner
 	-loglevel "$FFMPEG_LOGLEVEL"
+	-probesize "$FFMPEG_PROBESIZE"
+	-analyzeduration "$FFMPEG_ANALYZEDURATION"
 )
 
 if [ "$FFMPEG_DISCARDCORRUPT" = "1" ]; then
@@ -36,27 +38,31 @@ if [ "$FFMPEG_GENPTS" = "1" ]; then
 	CMD+=(-fflags +genpts)
 fi
 
-CMD+=(
-	-readrate "$READRATE"
-	-readrate_initial_burst "$READRATE_INITIAL_BURST"
-	-readrate_catchup "$READRATE_CATCHUP"
-)
+if [ "$READRATE" != "0" ]; then
+	CMD+=(
+		-readrate "$READRATE"
+		-readrate_initial_burst "$READRATE_INITIAL_BURST"
+		-readrate_catchup "$READRATE_CATCHUP"
+	)
+fi
 
 # input options FIRST
 if [[ -n "$FFMPEG_INPUT_OPT" ]]; then
 	CMD+=("${FFMPEG_INPUT_OPT[@]}")
 fi
 
-CMD+=(
-	-seekable 0
-	-multiple_requests 1
-	-user_agent "$FFMPEG_USER_AGENT"
-	-rw_timeout 15000000
-	-reconnect 1
-	-reconnect_streamed 1
-	-reconnect_on_network_error 1
-	-reconnect_delay_max 5
-)
+if [ "$UPSTREAM_NOT_HTTP" != "1" ]; then
+	CMD+=(
+		-seekable 0
+		-multiple_requests 1
+		-user_agent "$FFMPEG_USER_AGENT"
+		-rw_timeout 15000000
+		-reconnect 1
+		-reconnect_streamed 1
+		-reconnect_on_network_error 1
+		-reconnect_delay_max 5
+	)
+fi
 
 if [ "$UPSTREAM_NOT_HLS" != "1" ]; then
 	CMD+=(
@@ -98,7 +104,7 @@ cleanup() {
 
 	echo "cleaning up $streamdir..."
 
-	find "$streamdir" -type f ! -name 'index.m3u8' -print0 | xargs -0 rm -v
+	find "$streamdir" -type f -exec rm '{}' \;
 }
 
 while true; do

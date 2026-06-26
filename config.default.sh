@@ -35,8 +35,23 @@ FFMPEG_COPYTB=0
 # Discard corrupted segments
 FFMPEG_DISCARDCORRUPT=1
 
+# Probe size for input detection.
+# Increase if streams fail to detect correctly.
+#
+# Default: 2M
+FFMPEG_PROBESIZE=2M
+
+# Analyze duration in microseconds.
+# Increase if certain live starts without SPS/PPS.
+#
+# Default: 2000000 (2 seconds)
+FFMPEG_ANALYZEDURATION=2000000
+
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
+#
+# toggle if upstream is from non-http source
+# UPSTREAM_NOT_HTTP=1
 #
 # you can configure this differently per stream with CONF= when launching ./relay.sh
 
