@@ -45,8 +45,16 @@ CMD+=(
 	-reconnect_streamed 1
 	-reconnect_on_network_error 1
 	-reconnect_delay_max 5
-	-extension_picky 0
-	-live_start_index "$HLS_START_INDEX"
+)
+
+if [ "$UPSTREAM_NOT_HLS" != "1" ]; then
+	CMD+=(
+		-extension_picky 0
+		-live_start_index "$HLS_START_INDEX"
+	)
+fi
+
+CMD+=(
 	-i "$url"
 	-c copy
 	-avoid_negative_ts disabled

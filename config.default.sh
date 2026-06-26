@@ -12,14 +12,19 @@ ACCESS_URL="https://tv.example.com/stream"
 # Ignore the following if you only care about serving streams
 
 ROOT_STREAMDIR="./stream"
+
 FFMPEG_LOGLEVEL=warning
 
 # -- FFMPEG
 
 FFMPEG_USER_AGENT="hls-repeater"
 
-# additional flags if needed
+# toggle this if upstream is not HLS/m3u8
+# UPSTREAM_NOT_HLS=1
+#
+# you can configure this differently per stream with CONF= when launching ./relay.sh
 
+# additional ffmpeg flags if needed
 # FFMPEG_INPUT_OPT=(
 #   -flag..
 # )
