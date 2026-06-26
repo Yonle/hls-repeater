@@ -13,7 +13,7 @@ ACCESS_URL="https://tv.example.com/stream"
 
 ROOT_STREAMDIR="./stream"
 
-FFMPEG_LOGLEVEL=warning
+FFMPEG_LOGLEVEL=info
 
 # -- FFMPEG
 
@@ -46,6 +46,20 @@ FFMPEG_PROBESIZE=2M
 #
 # Default: 2000000 (2 seconds)
 FFMPEG_ANALYZEDURATION=2000000
+
+# Preserve the original input timestamps instead of generating new ones.
+# Can improve A/V synchronization for some live MPEG-TS or IPTV streams,
+# but may expose timestamp issues from broken sources.
+#
+# Default: 1
+FFMPEG_COPYTS=1
+
+# When preserving timestamps, shift the entire timeline so playback starts
+# at timestamp 0 instead of the original input timestamp.
+# Requires FFMPEG_COPYTS to be enabled.
+#
+# Default: 1
+FFMPEG_TS_START_AT_ZERO=1
 
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1

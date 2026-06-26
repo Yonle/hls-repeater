@@ -80,6 +80,9 @@ if [ "$FFMPEG_COPYTB" = "1" ]; then
 	CMD+=(-copytb 1)
 fi
 
+! [ -z "$FFMPEG_COPYTS" ] && CMD+=(-copyts)
+! [ -z "$FFMPEG_TS_START_AT_ZERO" ] && CMD+=(-start_at_zero)
+
 CMD+=(
 	-f hls
 	-hls_start_number_source datetime
@@ -96,6 +99,8 @@ if [[ -n "$FFMPEG_OUTPUT_OPT" ]]; then
 fi
 
 CMD+=("$streamdir/index.m3u8")
+
+echo "${CMD[@]}"
 
 cleanup() {
 	if ! [ -d "$streamdir" ]; then
