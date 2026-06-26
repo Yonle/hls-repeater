@@ -104,13 +104,13 @@ READRATE_INITIAL_BURST=0
 READRATE_CATCHUP=0
 
 # how long each segments should be?
-HLS_TIME=8
+HLS_TIME=4
 
 # how many segments must be announced to client?
-HLS_LIST_SIZE=4
+HLS_LIST_SIZE=8
 
 # how many segments must be kept behind before deleted?
-HLS_DELETE_THRESHOLD=10
+HLS_DELETE_THRESHOLD=16
 
 # start from what segments first?
 # -1: start from the newest in the index
