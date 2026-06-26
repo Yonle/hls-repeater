@@ -7,6 +7,16 @@ all you need is:
 4. upstream link not encrypted with DRM
 5. a http server for serving static dir. `darkhttpd` is preferred
 
+> **Disclaimer**
+>
+> This project does not provide, bundle, distribute, host, or advertise IPTV playlists, channel lists, stream URLs, or any copyrighted media.
+>
+> "hls-repeater" is a generic FFmpeg-based HLS relay utility. It simply reads a media source specified by the user and republishes it as an HLS stream. The software is protocol-agnostic and can be used with any compatible input source.
+>
+> Users are solely responsible for ensuring they have the necessary rights or permission to access, relay, or redistribute any content they use with this software.
+>
+> Any example URLs used in this repository are placeholders (such as example.com) and do not point to actual media streams.
+
 ## steps to repeat bunch of upstreams
 
 1. edit `config.sh` (after copying `config.default.sh`), and modify `ACCESS_URL` to be a public link where anyone can access your http server that's serving `stream/` folder
