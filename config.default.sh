@@ -29,8 +29,11 @@ FFMPEG_GENPTS=0
 # Preserve the input timebase during stream copy.
 # Useful for some MPEG-TS/IPTV sources.
 #
-# Default: 0
-FFMPEG_COPYTB=0
+# -1: auto
+#  0: decoder time base
+#  1: demuxer/input time base
+# Default: -1
+FFMPEG_COPYTB=-1
 
 # Discard corrupted segments
 FFMPEG_DISCARDCORRUPT=1

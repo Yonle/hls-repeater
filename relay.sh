@@ -79,7 +79,7 @@ CMD+=(
 	-c copy
 )
 
-! [ -z "$FFMPEG_COPYTB" ] && [ "$FFMPEG_COPYTB" != "0" ] && CMD+=(-copytb $FFMPEG_COPYTB)
+! [ -z "$FFMPEG_COPYTB" ] && [ "$FFMPEG_COPYTB" != "-1" ] && CMD+=(-copytb $FFMPEG_COPYTB)
 [ "$FFMPEG_COPYTS" == "1" ] && CMD+=(-copyts)
 [ "$FFMPEG_TS_START_AT_ZERO" == "1" ] && CMD+=(-start_at_zero)
 
