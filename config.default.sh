@@ -22,6 +22,7 @@ FFMPEG_USER_AGENT="hls-repeater"
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
 #
+# if you use fMP4 for the HLS, Please remove -bsf:a aac_adtstoasc to avoid audio latency
 # you can configure this differently per stream with CONF= when launching ./relay.sh
 
 # additional ffmpeg flags if needed
