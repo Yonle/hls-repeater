@@ -76,12 +76,9 @@ CMD+=(
 	-c copy
 )
 
-if [ "$FFMPEG_COPYTB" = "1" ]; then
-	CMD+=(-copytb 1)
-fi
-
-! [ -z "$FFMPEG_COPYTS" ] && CMD+=(-copyts)
-! [ -z "$FFMPEG_TS_START_AT_ZERO" ] && CMD+=(-start_at_zero)
+[ "$FFMPEG_COPYTB" == "1" ] && CMD+=(-copytb 1)
+[ "$FFMPEG_COPYTS" == "1" ] && CMD+=(-copyts)
+[ "$FFMPEG_TS_START_AT_ZERO" == "1" ] && CMD+=(-start_at_zero)
 
 CMD+=(
 	-f hls
