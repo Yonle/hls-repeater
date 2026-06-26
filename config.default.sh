@@ -19,6 +19,22 @@ FFMPEG_LOGLEVEL=warning
 
 FFMPEG_USER_AGENT="hls-repeater"
 
+# Generate missing PTS.
+# Enable ONLY if FFmpeg complains about missing timestamps
+# or the upstream lacks valid PTS.
+#
+# Default: 0
+FFMPEG_GENPTS=0
+
+# Preserve the input timebase during stream copy.
+# Useful for some MPEG-TS/IPTV sources.
+#
+# Default: 0
+FFMPEG_COPYTB=0
+
+# Discard corrupted segments
+FFMPEG_DISCARDCORRUPT=1
+
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
 #

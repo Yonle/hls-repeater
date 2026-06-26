@@ -24,8 +24,19 @@ fi
 streamdir="$ROOT_STREAMDIR/$categ/$name"
 
 CMD=(ffmpeg
-	-hide_banner -loglevel "$FFMPEG_LOGLEVEL"
-	-fflags +genpts+discardcorrupt
+	-hide_banner
+	-loglevel "$FFMPEG_LOGLEVEL"
+)
+
+if [ "$FFMPEG_DISCARDCORRUPT" = "1" ]; then
+	CMD+=(-fflags +discardcorrupt)
+fi
+
+if [ "$FFMPEG_GENPTS" = "1" ]; then
+	CMD+=(-fflags +genpts)
+fi
+
+CMD+=(
 	-readrate "$READRATE"
 	-readrate_initial_burst "$READRATE_INITIAL_BURST"
 	-readrate_catchup "$READRATE_CATCHUP"
@@ -57,7 +68,13 @@ fi
 CMD+=(
 	-i "$url"
 	-c copy
-	-avoid_negative_ts disabled
+)
+
+if [ "$FFMPEG_COPYTB" = "1" ]; then
+	CMD+=(-copytb 1)
+fi
+
+CMD+=(
 	-f hls
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
