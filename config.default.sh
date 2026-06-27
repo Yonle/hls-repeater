@@ -70,6 +70,9 @@ FFMPEG_TS_START_AT_ZERO=1
 # toggle if upstream is from non-http source
 # UPSTREAM_NOT_HTTP=1
 #
+# toggle thus if upstream's stream is not MPEG-TS
+# UPSTREAM_NOT_TS=1
+#
 # you can configure this differently per stream with CONF= when launching ./relay.sh
 
 # additional ffmpeg flags if needed
