@@ -71,6 +71,12 @@ if [ "$UPSTREAM_NOT_HLS" != "1" ]; then
 	)
 fi
 
+if [ "$UPSTREAM_NOT_TS" != "1" ]; then
+	CMD+=(
+		-correct_ts_overflow 0
+	)
+fi
+
 CMD+=(
 	-i "$url"
 	-map 0:v?
