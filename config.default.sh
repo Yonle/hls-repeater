@@ -54,15 +54,15 @@ FFMPEG_ANALYZEDURATION=2000000
 # Can improve A/V synchronization for some live MPEG-TS or IPTV streams,
 # but may expose timestamp issues from broken sources.
 #
-# Default: 0
-FFMPEG_COPYTS=0
+# Default: 1
+FFMPEG_COPYTS=1
 
 # When preserving timestamps, shift the entire timeline so playback starts
 # at timestamp 0 instead of the original input timestamp.
 # Requires FFMPEG_COPYTS to be enabled.
 #
-# Default: 0
-FFMPEG_TS_START_AT_ZERO=0
+# Default: 1
+FFMPEG_TS_START_AT_ZERO=1
 
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
