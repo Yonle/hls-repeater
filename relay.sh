@@ -28,6 +28,7 @@ CMD=(ffmpeg
 	-loglevel "$FFMPEG_LOGLEVEL"
 	-probesize "$FFMPEG_PROBESIZE"
 	-analyzeduration "$FFMPEG_ANALYZEDURATION"
+	-thread_queue_size "$FFMPEG_THREAD_QUEUE_SIZE"
 )
 
 if [ "$FFMPEG_DISCARDCORRUPT" = "1" ]; then

@@ -64,6 +64,10 @@ FFMPEG_COPYTS=1
 # Default: 1
 FFMPEG_TS_START_AT_ZERO=1
 
+# Adjust maximum thread queue size of ffmpeg thread
+# Only adjust this when necessary
+FFMPEG_THREAD_QUEUE_SIZE=4096
+
 # toggle this if upstream is not HLS/m3u8
 # UPSTREAM_NOT_HLS=1
 #
