@@ -122,9 +122,11 @@ while true; do
 	cleanup
 	mkdir -p "$streamdir"
 
+	echo "[$categ/$name] start relaying..."
+
 	"${CMD[@]}"
 
-	echo "[$name] ffmpeg exited with code $?. restarting in 5sec..."
+	echo "[$categ/$name] ffmpeg exited with code $?. restarting in 5sec..."
 
 	sleep 5 # retry in 5 seconds.
 done
