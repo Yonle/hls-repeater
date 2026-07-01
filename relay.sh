@@ -129,5 +129,7 @@ while true; do
 
 	echo "[$categ/$name] ffmpeg exited with code $?. restarting in 5sec..."
 
+	[ "$EXIT_ON_FAIL" == "1" ] && exit $?
+
 	sleep 5 # retry in 5 seconds.
 done

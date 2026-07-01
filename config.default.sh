@@ -13,6 +13,9 @@ ACCESS_URL="https://tv.example.com/stream"
 
 ROOT_STREAMDIR="./stream"
 
+# whenever to stop retrying on fail
+# EXIT_ON_FAIL=1
+
 FFMPEG_LOGLEVEL=info
 
 # -- FFMPEG
