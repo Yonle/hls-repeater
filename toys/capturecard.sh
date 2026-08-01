@@ -28,7 +28,7 @@ ffmpeg \
   -init_hw_device qsv=hw \
   -filter_hw_device hw \
   -fflags nobuffer -flags low_delay \
-  -thread_queue_size 512 -f v4l2 -input_format mjpeg -framerate "${FPS}" -c:v mjpeg_qsv -i "${vid_in}" \
+  -thread_queue_size 512 -f v4l2 -input_format mjpeg -framerate "${FPS:-60}" -c:v mjpeg_qsv -i "${vid_in}" \
   -thread_queue_size 512 -f alsa -i "${aud_in}" \
   -map 0:v:0 -map 1:a:0 \
   -c:v hevc_qsv -look_ahead_depth 0 -bf 0 -low_power 1 -vb "${FFMPEG_VIDEO_BITRATE:-5M}" \
