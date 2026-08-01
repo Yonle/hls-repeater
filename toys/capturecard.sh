@@ -7,10 +7,10 @@ cont="${4:-nut}"
 
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
   echo "Usage: ./toys/capturecard.sh /dev/videoX hw:1,0 [udp://... | rtmp://... | srt://... | tcp://...] (mpegts|nut|fmp4|flv|...)"
-  echo "If you are using udp:// multicast, it's recommended to use mpegts. Otherwise, nut is recommended."
+  echo "If you are using udp:// multicast or srt:// over unreliable connection, it's recommended to use mpegts. Otherwise, nut is recommended."
   echo
   echo "You can also pipe it to multiple streams if needed. For example, One for streaming, another one for ourselves:"
-  echo "  ./capturecard.sh /dev/video3 hw:1,0 '[f=nut]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee"
+  echo "  ./capturecard.sh /dev/video3 hw:1,0 '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee"
   echo
   echo "This uses \"tee\" container"
   exit 1
