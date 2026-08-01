@@ -1,0 +1,1 @@
+capturecard: convert capture card to hevc opus (low latency) in 5 Mbps efficiently. you need intel processor with qsv to run it as it uses a lot of optimizations feature from that
