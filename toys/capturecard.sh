@@ -53,16 +53,15 @@ ffmpeg \
     -bf "${HEVC_BF:-0}" \
     -low_power 1 \
     -forced_idr 1 \
-    -rc cbr \
     -vb "${vb}" \
     -maxrate "${vb}" \
     -bufsize "${vbfs}" \
     -g "${vkf}" \
     -keyint_min "${vkf}" \
     -rdo 1 \
-    -mbbrc 0 \
-    -extbrc 0 \
-    -scenario 0 \
+    -mbbrc 1 \
+    -extbrc 1 \
+    -scenario livestreaming \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
     -vbr constrained \
