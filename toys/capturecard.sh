@@ -17,6 +17,7 @@ Environment Variables:
   FPS                  : The capture card's target FPS. This will also affect the output's FPS (def: 60)
   FFMPEG_VIDEO_BITRATE : HEVC's Video bitrate (def: "5M")
   FFMPEG_AUDIO_BITRATE : OPUS's Audio bitrate (def: "128k")
+  HEVC_BF              : HEVC's Bi-frame (def: "0")
 
 To get your pulse sink, Run the following:
   pactl list sink | grep -i node.name
@@ -34,7 +35,7 @@ ffmpeg \
   -thread_queue_size 512 -f v4l2 -input_format mjpeg -framerate "${FPS:-60}" -c:v mjpeg_qsv -i "${vid_in}" \
   -thread_queue_size 512 -f pulse -i "${aud_in}" \
   -map 0:v:0 -map 1:a:0 \
-  -c:v hevc_qsv -look_ahead_depth 0 -bf 0 -low_power 1 -vb "${FFMPEG_VIDEO_BITRATE:-5M}" \
+  -c:v hevc_qsv -look_ahead_depth 0 -bf "${HEVC_BF:-0}" -low_power 1 -vb "${FFMPEG_VIDEO_BITRATE:-5M}" \
   -c:a libopus -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
   -f "${cont}" \
   "${out}"
