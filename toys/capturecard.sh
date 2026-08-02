@@ -28,10 +28,11 @@ EOF
 exit 1
 fi
 
+fps="${FPS:-60}"
 vb="${FFMPEG_VIDEO_BITRATE:-5M}"
 vbfs="${FFMPEG_VIDEO_BUFSIZE:-8M}"
 
-default_vkf="$(($FPS*5))"
+default_vkf="$(($fps*5))"
 vkf="${FFMPEG_VIDEO_KEYFRAME:-${default_vkf}}"
 
 ffmpeg \
@@ -42,7 +43,7 @@ ffmpeg \
   -fflags nobuffer -flags low_delay \
   -thread_queue_size 512 -f v4l2 \
     -input_format mjpeg \
-    -framerate "${FPS:-60}" \
+    -framerate "${fps}" \
     -c:v mjpeg_qsv \
     -i "${vid_in}" \
   -thread_queue_size 512 -f pulse \
