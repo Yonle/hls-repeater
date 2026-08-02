@@ -17,7 +17,7 @@ Environment Variables:
   FPS                   : The capture card's target FPS. This will also affect the output's FPS (def: 60)
   FFMPEG_VIDEO_BITRATE  : HEVC's Video bitrate (def: "5M")
   FFMPEG_VIDEO_BUFSIZE  : HEVC's Video encoder buffer size. Only change this if you know what you are doing (def: "8M")
-  FFMPEG_VIDEO_KEYFRAME : HEVC's Video keyframe (def: "250")
+  FFMPEG_VIDEO_KEYFRAME : HEVC's Video keyframe (def: FPS*5)
   FFMPEG_AUDIO_BITRATE  : OPUS's Audio bitrate (def: "128k")
   HEVC_BF               : HEVC's Bi-frame (def: "0")
 
@@ -30,7 +30,9 @@ fi
 
 vb="${FFMPEG_VIDEO_BITRATE:-5M}"
 vbfs="${FFMPEG_VIDEO_BUFSIZE:-8M}"
-vkf="${FFMPEG_VIDEO_KEYFRAME:-250}"
+
+default_vkf="$(($FPS*5))"
+vkf="${FFMPEG_VIDEO_KEYFRAME:-${default_vkf}}"
 
 ffmpeg \
   -fflags +genpts -hide_banner -loglevel info \
@@ -57,6 +59,10 @@ ffmpeg \
     -bufsize "${vbfs}" \
     -g "${vkf}" \
     -keyint_min "${vkf}" \
+    -rdo 1 \
+    -mbbrc 1 \
+    -extbrc 1 \
+    -scenario livestreaming \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
     -vbr constrained \
