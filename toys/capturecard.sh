@@ -16,6 +16,7 @@ You can also pipe it to multiple streams if needed. For example, One for streami
 Environment Variables:
   FPS                  : The capture card's target FPS. This will also affect the output's FPS (def: 60)
   FFMPEG_VIDEO_BITRATE : HEVC's Video bitrate (def: "5M")
+  FFMPEG_VIDEO_BUFSIZE : HEVC's Video encoder buffer size. Only change this if you know what you are doing (def: "8M")
   FFMPEG_AUDIO_BITRATE : OPUS's Audio bitrate (def: "128k")
   HEVC_BF              : HEVC's Bi-frame (def: "0")
 
@@ -26,16 +27,34 @@ EOF
 exit 1
 fi
 
+vb="${FFMPEG_VIDEO_BITRATE:-5M}"
+vbfs="${FFMPEG_VIDEO_BUFSIZE:-8M}"
+
 ffmpeg \
   -fflags +genpts -hide_banner -loglevel info \
   -use_wallclock_as_timestamps 1 \
   -init_hw_device qsv=hw \
   -filter_hw_device hw \
   -fflags nobuffer -flags low_delay \
-  -thread_queue_size 512 -f v4l2 -input_format mjpeg -framerate "${FPS:-60}" -c:v mjpeg_qsv -i "${vid_in}" \
-  -thread_queue_size 512 -f pulse -i "${aud_in}" \
+  -thread_queue_size 512 -f v4l2 \
+    -input_format mjpeg \
+    -framerate "${FPS:-60}" \
+    -c:v mjpeg_qsv \
+    -i "${vid_in}" \
+  -thread_queue_size 512 -f pulse \
+    -i "${aud_in}" \
   -map 0:v:0 -map 1:a:0 \
-  -c:v hevc_qsv -look_ahead_depth 0 -bf "${HEVC_BF:-0}" -low_power 1 -vb "${FFMPEG_VIDEO_BITRATE:-5M}" \
-  -c:a libopus -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
+  -c:v hevc_qsv \
+    -look_ahead_depth 0 \
+    -bf "${HEVC_BF:-0}" \
+    -low_power 1 \
+    -forced_idr 1 \
+    -rc cbr \
+    -vb "${vb}" \
+    -maxrate "${vb}" \
+    -bufsize "${vbfs}" \
+  -c:a libopus \
+    -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
+    -vbr constrained \
   -f "${cont}" \
   "${out}"
