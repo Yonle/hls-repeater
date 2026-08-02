@@ -27,6 +27,7 @@ pw-cat \
 
 trap 'kill -KILL -- -$$ 2>/dev/null' INT TERM EXIT
 mpv \
+  --no-audio \
   --hwdec=qsv \
   --vd=mjpeg_qsv \
   --profile=low-latency \
