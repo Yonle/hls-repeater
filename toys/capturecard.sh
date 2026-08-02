@@ -62,7 +62,7 @@ ffmpeg \
     -rdo 1 \
     -mbbrc 0 \
     -extbrc 0 \
-    -scenario livestreaming \
+    -scenario 0 \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
     -vbr constrained \
