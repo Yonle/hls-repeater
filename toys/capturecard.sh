@@ -14,11 +14,12 @@ You can also pipe it to multiple streams if needed. For example, One for streami
   ./capturecard.sh /dev/video3 hw:1,0 '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee
 
 Environment Variables:
-  FPS                  : The capture card's target FPS. This will also affect the output's FPS (def: 60)
-  FFMPEG_VIDEO_BITRATE : HEVC's Video bitrate (def: "5M")
-  FFMPEG_VIDEO_BUFSIZE : HEVC's Video encoder buffer size. Only change this if you know what you are doing (def: "8M")
-  FFMPEG_AUDIO_BITRATE : OPUS's Audio bitrate (def: "128k")
-  HEVC_BF              : HEVC's Bi-frame (def: "0")
+  FPS                   : The capture card's target FPS. This will also affect the output's FPS (def: 60)
+  FFMPEG_VIDEO_BITRATE  : HEVC's Video bitrate (def: "5M")
+  FFMPEG_VIDEO_BUFSIZE  : HEVC's Video encoder buffer size. Only change this if you know what you are doing (def: "8M")
+  FFMPEG_VIDEO_KEYFRAME : HEVC's Video keyframe (def: "250")
+  FFMPEG_AUDIO_BITRATE  : OPUS's Audio bitrate (def: "128k")
+  HEVC_BF               : HEVC's Bi-frame (def: "0")
 
 To get your pulse sink, Run the following:
   pactl list sink | grep -i node.name
@@ -29,6 +30,7 @@ fi
 
 vb="${FFMPEG_VIDEO_BITRATE:-5M}"
 vbfs="${FFMPEG_VIDEO_BUFSIZE:-8M}"
+vkf="${FFMPEG_VIDEO_KEYFRAME:-250}"
 
 ffmpeg \
   -fflags +genpts -hide_banner -loglevel info \
@@ -53,6 +55,8 @@ ffmpeg \
     -vb "${vb}" \
     -maxrate "${vb}" \
     -bufsize "${vbfs}" \
+    -g "${vkf}" \
+    -keyint_min "${vkf}" \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
     -vbr constrained \
