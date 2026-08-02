@@ -60,8 +60,8 @@ ffmpeg \
     -g "${vkf}" \
     -keyint_min "${vkf}" \
     -rdo 1 \
-    -mbbrc 1 \
-    -extbrc 1 \
+    -mbbrc 0 \
+    -extbrc 0 \
     -scenario livestreaming \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
