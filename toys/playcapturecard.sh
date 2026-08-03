@@ -27,7 +27,7 @@ EOF
 exit 1
 fi
 
-lavf_flags="input_format=mjpeg"
+lavf_flags="input_format=mjpeg,gpu_copy=1"
 
 ! [ -z "${FPS}"        ] && lavf_flags+=",framerate=${FPS}"
 ! [ -z "${VIDEO_SIZE}" ] && lavf_flags+=",video_size=${VIDEO_SIZE}"
