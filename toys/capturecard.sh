@@ -61,6 +61,7 @@ ffmpeg \
     -keyint_min "${vkf}" \
   -c:a libopus \
     -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
+    -af "aresample=async=1" \
     -vbr constrained \
   -f "${cont}" \
   "${out}"
