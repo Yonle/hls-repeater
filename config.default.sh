@@ -64,8 +64,8 @@ FFMPEG_COPYTS=1
 # at timestamp 0 instead of the original input timestamp.
 # Requires FFMPEG_COPYTS to be enabled.
 #
-# Default: 1
-FFMPEG_TS_START_AT_ZERO=1
+# Default: 0
+FFMPEG_TS_START_AT_ZERO=0
 
 # Adjust maximum thread queue size of ffmpeg thread
 # Only adjust this when necessary
