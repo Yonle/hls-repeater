@@ -36,7 +36,6 @@ pw-cat \
   --target "${aud_in}" \
   -r - | \
     pw-cat \
-      --latency=384 \
       -p - &
 
 
