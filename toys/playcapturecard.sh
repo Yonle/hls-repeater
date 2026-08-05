@@ -15,7 +15,7 @@ Example:
   ./playcapturecard.sh /dev/video2 alsa_input.usb-MACROSILICON_2109-02.analog-stereo
 
   or with custom param:
-  env FPS=50 VIDEO_SIZE=1920x1080 ./playcapturecard.sh /dev/video2 alsa_input.usb-MACROSILICON_2109-02.analog-stereo
+  env FPS=60 VIDEO_SIZE=1920x1080 ./playcapturecard.sh /dev/video2 alsa_input.usb-MACROSILICON_2109-02.analog-stereo
 
 To get your pipewire sink, Please do the following:
   pw-cli ls | grep -i node.name
