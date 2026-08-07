@@ -3,15 +3,15 @@
 vid_in="$1"
 aud_in="$2"
 out="$3"
-cont="${4:-nut}"
+cont="${4:-mpegts}"
 
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
 cat <<-EOF
-Usage: ./toys/capturecard.sh <v4l2device> <pulsesink> [udp://... | rtmp://... | srt://... | tcp://...] (mpegts|nut|fmp4|flv|...)
-If you are using udp:// multicast or srt:// over unreliable connection, it's recommended to use mpegts. Otherwise, nut is recommended.
+Usage: ./toys/capturecard.sh <v4l2device> <pulsesink> [udp://... | rtmp://... | srt://... | tcp://...] ([mpegts]|nut|fmp4|flv|...)
+If you are using udp:// multicast or srt:// over unreliable connection, it's recommended to use mpegts.
 
 You can also pipe it to multiple streams if needed. For example, One for streaming, another one for ourselves:
-  ./capturecard.sh /dev/video3 hw:1,0 '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee
+  ./capturecard.sh /dev/video3 alsa_input.usb-MACROSILICON_2109-02.analog-stereo '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee
 
 Environment Variables:
   FPS                   : The capture card's target FPS. This will also affect the output's FPS (def: 60)
@@ -22,7 +22,7 @@ Environment Variables:
   HEVC_BF               : HEVC's Bi-frame (def: "0")
 
 To get your pulse sink, Run the following:
-  pactl list sink | grep -i node.name
+  pactl list sources | grep -i node.name
 EOF
 
 exit 1
