@@ -22,6 +22,9 @@ To get your pipewire sink, Please do the following:
 
 When using custom param, Please ensure that the mode that you are looking for is available at:
   v4l2-ctl -d /dev/videoX --list-formats-ext
+
+To get list of v4l2 devices, Run the following:
+  v4l2-cli --list-devices
 EOF
 
 exit 1

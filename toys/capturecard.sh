@@ -5,6 +5,13 @@ aud_in="$2"
 out="$3"
 cont="${4:-mpegts}"
 
+fps="${FPS:-60}"
+vb="${FFMPEG_VIDEO_BITRATE:-6M}"
+vbfs="${FFMPEG_VIDEO_BUFSIZE:-12M}"
+ab="${FFMPEG_AUDIO_BITRATE:-128k}"
+bf="${HEVC_BF:-3}"
+lookahead="${HEVC_LOOKAHEAD:-32}"
+
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
 cat <<-EOF
 Usage: ./toys/capturecard.sh <v4l2device> <pulsesink> [udp://... | rtmp://... | srt://... | tcp://...] ([mpegts]|nut|fmp4|flv|...)
@@ -14,23 +21,23 @@ You can also pipe it to multiple streams if needed. For example, One for streami
   ./capturecard.sh /dev/video3 alsa_input.usb-MACROSILICON_2109-02.analog-stereo '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee
 
 Environment Variables:
-  FPS                   : The capture card's target FPS. This will also affect the output's FPS (def: 60)
-  FFMPEG_VIDEO_BITRATE  : HEVC's Video bitrate (def: "5M")
-  FFMPEG_VIDEO_BUFSIZE  : HEVC's Video encoder buffer size. Only change this if you know what you are doing (def: "8M")
+  FPS                   : The capture card's target FPS. This will also affect the output's FPS (current: ${fps})
+  FFMPEG_VIDEO_BITRATE  : HEVC's Video bitrate (current: "${vb}")
+  FFMPEG_VIDEO_BUFSIZE  : HEVC's Video encoder buffer size. Only change this if you know what you are doing (current: "${vbfs}")
   FFMPEG_VIDEO_KEYFRAME : HEVC's Video keyframe (def: FPS*5)
-  FFMPEG_AUDIO_BITRATE  : OPUS's Audio bitrate (def: "128k")
-  HEVC_BF               : HEVC's Bi-frame (def: "0")
+  FFMPEG_AUDIO_BITRATE  : OPUS's Audio bitrate (current: "${ab}")
+  HEVC_BF               : HEVC's Bi-frame (current: "${bf}")
+  HEVC_LOOKAHEAD        : HEVC's Look ahead depth (current: "${lookahead}")
 
 To get your pulse sink, Run the following:
   pactl list sources | grep -i node.name
+
+To get list of v4l2 devices, Run the following:
+  v4l2-cli --list-devices
 EOF
 
 exit 1
 fi
-
-fps="${FPS:-60}"
-vb="${FFMPEG_VIDEO_BITRATE:-5M}"
-vbfs="${FFMPEG_VIDEO_BUFSIZE:-8M}"
 
 default_vkf="$(($fps*5))"
 vkf="${FFMPEG_VIDEO_KEYFRAME:-${default_vkf}}"
@@ -50,8 +57,8 @@ ffmpeg \
     -i "${aud_in}" \
   -map 0:v:0 -map 1:a:0 \
   -c:v hevc_qsv \
-    -look_ahead_depth 0 \
-    -bf "${HEVC_BF:-0}" \
+    -look_ahead_depth "${lookahead}" \
+    -bf "${bf}" \
     -low_power 1 \
     -forced_idr 1 \
     -vb "${vb}" \
@@ -60,7 +67,7 @@ ffmpeg \
     -g "${vkf}" \
     -keyint_min "${vkf}" \
   -c:a libopus \
-    -ab "${FFMPEG_AUDIO_BITRATE:-128k}" \
+    -ab "${ab}" \
     -af "aresample=async=1" \
     -vbr constrained \
   -f "${cont}" \
