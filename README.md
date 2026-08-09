@@ -18,7 +18,7 @@ You'll need:
 
 ## Disclaimer
 
-This project **does not** provide, bundle, distribute, host, advertise, or include IPTV playlists, channel lists, stream URLs, or copyrighted media.
+This project **does not provide, bundle, distribute, host, advertise, or include IPTV playlists, channel lists, stream URLs, or copyrighted media.**
 
 `hls-repeater` is a generic HLS relay utility built around FFmpeg. It accepts a media source specified by the user and republishes it as an HLS stream.
 
@@ -32,81 +32,91 @@ Any URLs shown in this repository (such as `https://example.com/...`) are placeh
 
 ## 1. Configure the relay
 
-Copy the default configuration.
+Copy the default configuration:
 
 ```bash
 cp config.default.sh config.sh
 ```
 
-Edit `config.sh` and set `ACCESS_URL` to the public URL where your HTTP server will expose the `stream/` directory.
+Edit `config.sh` and configure the relay settings.
+
+In particular, set `ACCESS_URL` to the public URL where your HTTP server will expose the `stream/` directory.
 
 For example:
 
-```
+```text
 https://example.com/stream
 ```
 
 ---
 
-## 2. Create `liststreams/`
+## 2. Mount the HLS output directory as tmpfs
 
-There are two ways to create the `liststreams/` directory.
+`hls-repeater` is designed to store generated HLS segments in RAM.
 
-### Option A — Convert an M3U playlist
+Create the output directory if it does not exist:
 
 ```bash
-./genliststream.sh playlist.m3u8
+mkdir -p stream
 ```
 
-This generates:
+Then run the tmpfs setup script:
 
-```
-gen-liststreams/
-```
-
-Rename it to:
-
-```
-liststreams/
+```bash
+./mounttmpfs.sh
 ```
 
-### Option B — Create it manually
+By default, it uses a **5 GiB tmpfs**.
 
-See the `liststreams-example/` directory for the expected structure.
+You can change the size:
+
+```bash
+SIZE=10G ./mounttmpfs.sh
+```
+
+The script automatically detects whether `stream/` is already mounted as tmpfs.
+
+If it is already mounted, the script **remounts it with the requested size instead of unmounting it**. Existing stream files therefore remain intact during a size change.
+
+You can also choose a different privilege escalation command:
+
+```bash
+SU=doas ./mounttmpfs.sh
+```
+
+The default is `sudo`.
+
+To verify the mount:
+
+```bash
+findmnt -T stream
+```
+
+You should see `tmpfs` as the filesystem type.
 
 ---
 
-## 3. Generate relay scripts
+## 3. Start the relays
+
+Start your configured relay processes using the project's relay launcher.
+
+For an individual relay:
 
 ```bash
-./makerelayscript.sh
+bash relayscripts/<category>/<channel>.sh
 ```
 
-This creates:
+For example:
 
-```
-gen_relayscripts/
+```bash
+bash relayscripts/News/example_tv.sh
 ```
 
-Rename it to:
-
-```
-relayscripts/
-```
+The generated HLS segments will be written to the `stream/` directory.
 
 ---
 
-## 4. Start all relays
-
-```bash
-./relayctl.sh start
-```
-
-Every configured channel will begin relaying.
-
----
-
-## 5. Serve the output
+## 4. Serve the output
 
 Expose the `stream/` directory using your preferred HTTP server.
 
@@ -116,95 +126,64 @@ Example with `darkhttpd`:
 darkhttpd stream/ --port 8080 --no-listing
 ```
 
----
-
-## 6. Generate a playlist
-
-```bash
-./makem3u8.sh
-```
-
-This generates:
-
-```
-gen_index.m3u8
-```
-
-Share that playlist with your users.
+Your HLS output can then be accessed through the URL configured by `ACCESS_URL`.
 
 ---
 
-# Running a Single Relay
+# Using a Different tmpfs Size
 
-Instead of using `relayctl`, you can launch an individual relay directly.
+The default tmpfs size is **5 GiB**.
 
-```bash
-bash relayscripts/<category>/<channel>.sh
-```
-
-Example:
+You can override it for a single invocation:
 
 ```bash
-bash relayscripts/News/example_tv.sh
+SIZE=2G ./mounttmpfs.sh
 ```
+
+Or configure it permanently in your shell/environment:
+
+```bash
+export SIZE=10G
+./mounttmpfs.sh
+```
+
+The size is a **maximum limit**, not an immediate RAM allocation. tmpfs consumes memory as files are written.
+
+If the directory is already mounted as tmpfs, running the script again will remount it with the new size.
+
+For example:
+
+```bash
+SIZE=10G ./mounttmpfs.sh
+```
+
+will change an existing 5 GiB tmpfs to a 10 GiB limit without clearing the existing HLS segments.
 
 ---
 
-# Alternative: Without `liststreams/`
+# Stopping
 
-If you don't want to use `liststreams/`, create your own launcher script.
+Stop the relay processes using your normal process management method.
 
-Example:
-
-```bash
-trap 'kill -KILL -- -$$ 2>/dev/null' INT TERM
-
-R=./relay.sh
-
-$R Category1 channel1_tv https://example1.com/stream.m3u8 &
-$R Category2 channel2_tv https://example2.com/stream.m3u8 &
-
-# Override config.sh for only this relay.
-CONF=different_config.sh \
-$R Category3 channel3_tv https://example3.com/stream.m3u8
-
-wait
-```
-
-Start it with:
-
-```bash
-bash relays.sh
-```
-
-When stopping the relays, clean the generated files:
+After stopping the relays, the generated HLS files can be removed with:
 
 ```bash
 rm -rf stream/*
 ```
 
----
-
-# Using tmpfs (Recommended)
-
-If you're relaying many channels or running continuously, storing HLS segments in RAM can significantly reduce disk writes.
-
-Create the directory:
+To completely unmount the tmpfs:
 
 ```bash
-mkdir stream
+sudo umount stream/
 ```
 
-Mount it as `tmpfs`:
+Or, if using `doas`:
 
 ```bash
-sudo mount \
-    -t tmpfs \
-    -o size=5G,uid=$(id -u),gid=$(id -g),mode=1777 \
-    tmpfs stream/
+doas umount stream/
 ```
 
-Adjust the size (`5G`) to match your workload.
+Unmounting the tmpfs removes the files stored inside it.
 
 ---
 
@@ -213,4 +192,5 @@ Adjust the size (`5G`) to match your workload.
 * Works with MPEG-TS and fragmented MP4 (fMP4) HLS streams, depending on your configuration.
 * DRM-protected streams are **not supported**.
 * The relay simply republishes compatible upstream streams—it does not transcode unless configured to do so.
-
+* Using tmpfs is recommended for continuous HLS relaying because HLS segment creation and deletion can otherwise generate significant disk I/O.
+* Make sure the configured tmpfs size is large enough for the number of streams, segment duration, and HLS playlist size you are using.
