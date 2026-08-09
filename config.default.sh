@@ -1,16 +1,5 @@
 # -- UPSTREAM STREAMING DATA
 
-EPG_URL="https://example1.com/epg.xml,https://example2.com/epg.xml"i
-
-# this is the endpoint URL that the stream/index.m3u8 must point to                                           
-# for serving whatever in stream/ dir publicly.
-ACCESS_URL="https://tv.example.com/stream"
-
-# The ACCESS_URL link must be accessible.
-
-# -- core works. Advanced options.
-# Ignore the following if you only care about serving streams
-
 ROOT_STREAMDIR="./stream"
 
 # whenever to stop retrying on fail
@@ -134,15 +123,3 @@ HLS_START_INDEX=-1
 
 # the hls segment filename format
 HLS_SEGMENT_FILENAME="%05d.ts"
-
-# --- index m3u8 generation ---
-
-GEN_LISTSTREAMS_DIR="./gen_liststreams"
-LIST_STREAMS_DIR="./liststreams"
-
-GEN_M3U8_PUBLIC_INDEX="gen_index.m3u8"
-GEN_RELAY_SCRIPTS_DIR="./gen_relayscripts"
-RELAY_SCRIPTS_DIR="./relayscripts"
-
-# this is the endpoint URL that the stream/index.m3u8 must point to
-# for serving whatever in stream/ dir publicly.
