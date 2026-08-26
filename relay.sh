@@ -91,6 +91,7 @@ CMD+=(
 [ "$FFMPEG_TS_START_AT_ZERO" == "1" ] && CMD+=(-start_at_zero)
 
 CMD+=(
+	-muxdelay 0
 	-f hls
 	-hls_start_number_source datetime
 	-hls_time "$HLS_TIME"
