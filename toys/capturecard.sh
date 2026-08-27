@@ -6,6 +6,7 @@ out="$3"
 cont="${4:-mpegts}"
 
 fps="${FPS:-60}"
+vfps="${VIDEO_FPS:-60}"
 vb="${FFMPEG_VIDEO_BITRATE:-6M}"
 vbfs="${FFMPEG_VIDEO_BUFSIZE:-12M}"
 ab="${FFMPEG_AUDIO_BITRATE:-128k}"
@@ -21,7 +22,8 @@ You can also pipe it to multiple streams if needed. For example, One for streami
   ./capturecard.sh /dev/video3 alsa_input.usb-MACROSILICON_2109-02.analog-stereo '[f=mpegts]srt://127.0.0.1:1111|[f=mpegts]udp://127.0.0.1:7331]' tee
 
 Environment Variables:
-  FPS                   : The capture card's target FPS. This will also affect the output's FPS (current: ${fps})
+  FPS                   : The capture card's target FPS. This will not affect the output's FPS (current: ${fps})
+  VIDEO_FPS             : The stream output's FPS.
   FFMPEG_VIDEO_BITRATE  : HEVC's Video bitrate (current: "${vb}")
   FFMPEG_VIDEO_BUFSIZE  : HEVC's Video encoder buffer size. Only change this if you know what you are doing (current: "${vbfs}")
   FFMPEG_VIDEO_KEYFRAME : HEVC's Video keyframe (def: FPS*5)
@@ -55,7 +57,8 @@ ffmpeg \
     -i "${vid_in}" \
   -thread_queue_size 512 -f pulse \
     -i "${aud_in}" \
-  -map 0:v:0 -map 1:a:0 \
+  -map 0:v:0 \
+    -r "${vfps}" \
   -c:v hevc_qsv \
     -look_ahead_depth "${lookahead}" \
     -bf "${bf}" \
@@ -66,9 +69,11 @@ ffmpeg \
     -bufsize "${vbfs}" \
     -g "${vkf}" \
     -keyint_min "${vkf}" \
+  -map 1:a:0 \
   -c:a libopus \
     -ab "${ab}" \
     -af "aresample=async=1" \
     -vbr constrained \
+  -muxdelay 0 \
   -f "${cont}" \
   "${out}"
