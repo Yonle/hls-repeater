@@ -82,6 +82,7 @@ FFMPEG_THREAD_QUEUE_SIZE=4096
 
 # example: using fMP4 instead of mpegts
 # FFMPEG_OUTPUT_OPT=(
+# 	-movflags +frag_keyframe+empty_moov
 #	-hls_segment_type fmp4
 #	-hls_fmp4_init_filename "init.mp4"
 #	-bsf:a aac_adtstoasc
