@@ -33,6 +33,7 @@ Environment Variables:
   AUDIO_BITRATE         : OPUS's Audio bitrate (current: "${ab}")
   HEVC_BF               : Output Bi-frame (current: "${bf}")
   HEVC_LOOKAHEAD        : Output Look ahead depth (current: "${lookahead}")
+  LISTEN                : If output is using TCP, This must be a non-zero value.
 
 To get your pulse sink, Run the following:
   pactl list sources | grep -i node.name
@@ -113,8 +114,14 @@ CMD+=(
   -af "aresample=async=1"
   -vbr constrained
 
-  -muxdelay 0
   -f "${cont}"
+)
+
+if [[ -n "$LISTEN" ]]; then
+  CMD+=(-listen 1)
+fi
+
+CMD+=(
   "${out}"
 )
 
