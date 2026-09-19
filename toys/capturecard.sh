@@ -113,8 +113,8 @@ CMD+=(
   -keyint_min "${vkf}"
   -preset medium
   -scenario livestreaming
-  -tile_cols 3
-  -tile_rows 3
+  -tile_cols 2
+  -tile_rows 1
 
   -map 1:a:0
   -c:a libopus
