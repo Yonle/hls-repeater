@@ -112,6 +112,7 @@ CMD+=(
   -g "${vkf}"
   -keyint_min "${vkf}"
   -preset medium
+  -scenario livestreaming
   -tile_cols 3
   -tile_rows 3
 
