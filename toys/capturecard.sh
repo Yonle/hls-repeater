@@ -12,7 +12,7 @@ vbfs="${VIDEO_BUFSIZE:-12M}"
 ab="${AUDIO_BITRATE:-128k}"
 bf="${HEVC_BF:-3}"
 lookahead="${HEVC_LOOKAHEAD:-32}"
-vcodec="${VIDEO_CODEC:-h264}"
+vcodec="${VIDEO_CODEC:-hevc}"
 ict="${ICECAST_CONTENT_TYPE:-video/x-matroska}"
 
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
