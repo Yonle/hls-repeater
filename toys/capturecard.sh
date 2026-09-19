@@ -10,9 +10,9 @@ vfps="${VIDEO_FPS:-${fps}}"
 vb="${VIDEO_BITRATE:-5M}"
 vbfs="${VIDEO_BUFSIZE:-12M}"
 ab="${AUDIO_BITRATE:-128k}"
-bf="${HEVC_BF:-3}"
-lookahead="${HEVC_LOOKAHEAD:-32}"
-vcodec="${VIDEO_CODEC:-hevc}"
+bf="${VIDEO_BF:-3}"
+lookahead="${VIDEO_LOOKAHEAD:-32}"
+vcodec="${VIDEO_CODEC:-h264}"
 ict="${ICECAST_CONTENT_TYPE:-video/x-matroska}"
 
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
@@ -33,8 +33,8 @@ Environment Variables:
   VIDEO_KEYFRAME        : Output Video keyframe (def: FPS*3 for 3 seconds)
   ICECAST_CONTENT_TYPE  : Icecast's content type stream output. Only relevant if icecast is being used. (def: ${ict})
   AUDIO_BITRATE         : OPUS's Audio bitrate (current: "${ab}")
-  HEVC_BF               : Output Bi-frame (current: "${bf}")
-  HEVC_LOOKAHEAD        : Output Look ahead depth (current: "${lookahead}")
+  VIDEO_BF              : Output Bi-frame (current: "${bf}")
+  VIDEO_LOOKAHEAD       : Output Look ahead depth (current: "${lookahead}")
   LISTEN                : If output is using TCP, This must be a non-zero value.
 
 To get your pulse sink, Run the following:
