@@ -7,16 +7,17 @@ cont="${4:-mpegts}"
 
 fps="${FPS:-60}"
 vfps="${VIDEO_FPS:-${fps}}"
-vb="${VIDEO_BITRATE:-6M}"
+vb="${VIDEO_BITRATE:-5M}"
 vbfs="${VIDEO_BUFSIZE:-12M}"
 ab="${AUDIO_BITRATE:-128k}"
 bf="${HEVC_BF:-3}"
 lookahead="${HEVC_LOOKAHEAD:-32}"
 vcodec="${VIDEO_CODEC:-h264}"
+ict="${ICECAST_CONTENT_TYPE:-video/x-matroska}"
 
 if [ -z "$vid_in" ] || [ -z "$aud_in" ] || [ -z "$out" ]; then
 cat <<-EOF
-Usage: ./toys/capturecard.sh <v4l2device> <pulsesink> [udp://... | rtmp://... | srt://... | tcp://...] ([mpegts]|nut|fmp4|flv|...)
+Usage: ./toys/capturecard.sh <v4l2device> <pulsesink> [udp://... | rtmp://... | srt://... | tcp://... | icecast://... | ...] ([mpegts]|matroska|mp4|flv|...)
 If you are using udp:// multicast or srt:// over unreliable connection, it's recommended to use mpegts.
 
 You can also pipe it to multiple streams if needed. For example, One for streaming, another one for ourselves:
@@ -29,7 +30,8 @@ Environment Variables:
   VIDEO_CODEC           : The video codec (available: h264, hevc, vp9; current: "${vcodec}")
   VIDEO_BITRATE         : Output Video bitrate (current: "${vb}")
   VIDEO_BUFSIZE         : Output Video encoder buffer size. Only change this if you know what you are doing (current: "${vbfs}")
-  VIDEO_KEYFRAME        : Output Video keyframe (def: FPS*5)
+  VIDEO_KEYFRAME        : Output Video keyframe (def: FPS*3 for 3 seconds)
+  ICECAST_CONTENT_TYPE  : Icecast's content type stream output. Only relevant if icecast is being used. (def: ${ict})
   AUDIO_BITRATE         : OPUS's Audio bitrate (current: "${ab}")
   HEVC_BF               : Output Bi-frame (current: "${bf}")
   HEVC_LOOKAHEAD        : Output Look ahead depth (current: "${lookahead}")
@@ -45,7 +47,7 @@ EOF
 exit 1
 fi
 
-default_vkf="$(($vfps*5))"
+default_vkf="$(($vfps*3))"
 vkf="${VIDEO_KEYFRAME:-${default_vkf}}"
 
 CMD=(
@@ -98,24 +100,40 @@ CMD+=(
   -map 0:v:0
   -vf "vpp_qsv=out_range=tv:framerate=${vfps}"
   -c:v "${VIDEO_ENCODER}"
+  -async_depth 2
   -look_ahead_depth "${lookahead}"
   -bf "${bf}"
   -low_power 1
   -forced_idr 1
   -vb "${vb}"
+  -minrate "${vb}"
   -maxrate "${vb}"
   -bufsize "${vbfs}"
   -g "${vkf}"
   -keyint_min "${vkf}"
+  -preset medium
+  -tile_cols 3
+  -tile_rows 3
 
   -map 1:a:0
   -c:a libopus
   -ab "${ab}"
   -af "aresample=async=1"
   -vbr constrained
-
   -f "${cont}"
 )
+
+if [[ "${out}" == *"icecast://"* ]]; then
+  CMD+=(
+    -content_type "${ict}"
+  )
+fi
+
+if [ "${cont}" == "mp4" ] || [[ "${out}" == *"[f=mp4]"* ]]; then
+  CMD+=(
+    -movflags +frag_keyframe+empty_moov+default_base_moof
+  )
+fi
 
 if [[ -n "$LISTEN" ]]; then
   CMD+=(-listen 1)
@@ -124,5 +142,7 @@ fi
 CMD+=(
   "${out}"
 )
+
+echo "${CMD[@]}"
 
 exec "${CMD[@]}"
